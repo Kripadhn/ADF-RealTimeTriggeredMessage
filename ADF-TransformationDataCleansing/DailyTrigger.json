@@ -1,0 +1,15 @@
+{
+    "name": "DailyTrigger",
+    "properties": {
+      "type": "Recurrence",
+      "recurrence": {
+        "frequency": "Day",
+        "interval": 1
+      },
+      "startTime": "2022-01-01T00:00:00Z",
+      "endTime": "2022-12-31T00:00:00Z",
+      "timeZone": "UTC",
+      "createTime": "2022-01-01T00:00:00.0000000Z"
+    }
+  }
+  

@@ -1,0 +1,30 @@
+"typeProperties": {
+    "source": {
+        "type": "AzureDataLakeStore",
+        "recursive": true,
+        "fileName": "{DataLakeFilePath}"
+    },
+    "sink": {
+        "type": "AzureDataLakeStore",
+        "recursive": true,
+        "fileName": "{DataLakeFilePath}-cleansed"
+    },
+    "transformer": [
+        {
+            "type": "Filter",
+            "filter": {
+                "type": "Expression",
+                "expression": "Temperature >= 0"
+            }
+        },
+        {
+            "type": "DerivedColumn",
+            "columns": [
+                {
+                    "name": "TemperatureF",
+                    "expression": "((Temperature * 9) / 5) + 32"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,75 @@
+{
+    "name": "IoT_Data_Ingestion_Pipeline",
+    "activities": [
+        {
+            "name": "IoT_Hub_Trigger",
+            "type": "IoTHubTrigger",
+            "typeProperties": {
+                "iotHubName": {
+                    "value": "{IoTHubName}",
+                    "type": "Expression"
+                },
+                "consumerGroupName": {
+                    "value": "$Default",
+                    "type": "Expression"
+                },
+                "partitionKey": {
+                    "value": "$EventEnqueuedUtcTime",
+                    "type": "Expression"
+                }
+            },
+            "dependsOn": [],
+            "policy": {
+                "timeout": "01:00:00",
+                "retry": 3,
+                "retryIntervalInSeconds": 30
+            },
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "IoT_Data"
+                }
+            ]
+        },
+        {
+            "name": "Data_Transformation",
+            "type": "DataFlow",
+            "dependsOn": [
+                {
+                    "activity": "IoT_Hub_Trigger",
+                    "activityOutput": [
+                        "IoT_Data"
+                    ]
+                }
+            ],
+            "typeProperties": {
+                "source": {
+                    "type": "TabularSource",
+                    "storeSettings": {
+                        "type": "IoTHubSourceSettings",
+                        "source": {
+                            "activity": "IoT_Hub_Trigger",
+                            "outputName": "IoT_Data"
+                        }
+                    }
+                },
+                "sinks": [
+                    {
+                        "type": "TabularSink",
+                        "storeSettings": {
+                            "type": "AzureDataLakeStoreSettings",
+                            "filePath": "{DataLakeFilePath}"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "start": "2022-01-01T00:00:00Z",
+    "end": "2022-12-31T23:59:59Z",
+    "isPaused": false,
+    "hubName": "{DataFactoryName}",
+    "pipelineMode": "Standard",
+"referenceObjects": [],
+"annotations": []
+}

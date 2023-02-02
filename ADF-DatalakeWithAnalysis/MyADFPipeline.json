@@ -1,0 +1,45 @@
+{
+    "name": "MyADFPipeline",
+    "properties": {
+        "activities": [
+            {
+                "type": "Copy",
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureDataLakeStore",
+                        "store": {
+                            "accountName": "mydatalakeaccount"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataLakeStore",
+                        "store": {
+                            "accountName": "mydatalakeaccount"
+                        }
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "InputDataset"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "OutputDataset"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "executionPriorityOrder": "OldestFirst"
+                },
+                "scheduler": {
+                    "frequency": "Hour",
+                    "interval": 1
+                }
+            }
+        ],
+        "start": "2022-01-01T00:00:00Z",
+        "end": "2022-12-31T00:00:00Z"
+    }
+}
